@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POLVO — Stylist & Hair Artist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,7 @@
   .wrap{
     max-width:var(--maxw);
     margin:0 auto;
-    padding:0 28px;
+    padding:0 calc(28px + env(safe-area-inset-right)) 0 calc(28px + env(safe-area-inset-left));
   }
 
   a:focus-visible, button:focus-visible{
@@ -78,7 +78,7 @@
   .nav-inner{
     max-width:var(--maxw);
     margin:0 auto;
-    padding:16px 28px;
+    padding:16px calc(28px + env(safe-area-inset-right)) 16px calc(28px + env(safe-area-inset-left));
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -446,32 +446,129 @@
     font-size:13px; color:var(--ink-soft);
   }
 
-  /* ---------- MOBILE ---------- */
+  /* =======================================================
+     RESPONSIVE
+     Breakpoints pensados por dispositivo real, no solo por px:
+     ≤1180  → laptops chicas / MacBook Air-Pro 13" con zoom
+     ≤1024  → iPad Pro 12.9" landscape, iPad Air landscape, laptops chicas
+     ≤900   → iPad portrait (768–834), phablets grandes en landscape
+     ≤680   → iPhone Pro Max / Android grandes en landscape, tablets angostas
+     ≤540   → la mayoría de teléfonos en portrait (iPhone 13–16, Pixel, Galaxy)
+     ≤380   → iPhone SE / Android compactos (Galaxy A, etc.)
+     ======================================================= */
+
+  /* ---- ≤1180px: laptops / MacBook Pro 13-14" con espacio reducido ---- */
+  @media (max-width: 1180px){
+    :root{ --maxw: 96vw; }
+    .hero .wrap{ gap:40px; }
+    .about-grid{ gap:44px; }
+  }
+
+  /* ---- ≤1024px: iPad Pro landscape, iPad Air landscape, laptops chicas ---- */
+  @media (max-width: 1024px){
+    section{ padding:84px 0; }
+    .hero{ padding:76px 0 96px; }
+    .hero .wrap{ grid-template-columns:1fr 0.8fr; gap:36px; }
+    .stat-row{ gap:28px; }
+  }
+
+  /* ---- ≤900px: iPad portrait, tablets chicas — nav pasa a menú móvil ---- */
   @media (max-width: 900px){
     nav.links{
       position:fixed; inset:64px 0 0 0;
       background:var(--bone);
       flex-direction:column;
       align-items:flex-start;
-      padding:32px 28px;
+      padding:32px calc(28px + env(safe-area-inset-right)) 32px calc(28px + env(safe-area-inset-left));
       gap:22px;
       transform:translateX(100%);
       transition:transform .3s ease;
       z-index:40;
       border-top:1px solid var(--line);
+      overflow-y:auto;
     }
     nav.links.open{ transform:translateX(0); }
+    nav.links a{ font-size:15px; }
     .burger{ display:block; }
     .nav-actions .btn.desktop-only{ display:none; }
 
     .hero .wrap{ grid-template-columns:1fr; }
-    .hero{ padding:64px 0 80px; }
-    .about-grid{ grid-template-columns:1fr; }
-    .service-grid{ grid-template-columns:1fr; }
+    .hero{ padding:56px 0 72px; }
+    .hero-photo{ max-width:520px; margin:0 auto; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .about-photo{ max-width:420px; margin:0 auto; }
+    .service-grid{ grid-template-columns:repeat(2, 1fr); }
     .gallery{ grid-template-columns:repeat(2, 1fr); }
     .contact-meta{ flex-direction:column; align-items:center; }
     .contact-meta div{ text-align:center; }
     .modal-card{ padding:32px 22px 28px; }
+  }
+
+  /* ---- ≤680px: phablets/landscape y transición a teléfono ---- */
+  @media (max-width: 680px){
+    .wrap{ padding-left:calc(20px + env(safe-area-inset-left)); padding-right:calc(20px + env(safe-area-inset-right)); }
+    section{ padding:64px 0; }
+    .section-head{ margin-bottom:36px; }
+    .service-grid{ grid-template-columns:1fr; }
+    .hero .cta-row{ flex-direction:column; align-items:stretch; }
+    .hero .cta-row .btn{ text-align:center; justify-content:center; }
+    .contact-actions{ flex-direction:column; align-items:stretch; }
+    .contact-actions .btn{ justify-content:center; }
+  }
+
+  /* ---- ≤540px: la mayoría de teléfonos en portrait (iPhone/Android) ---- */
+  @media (max-width: 540px){
+    body{ font-size:15px; }
+    .nav-inner{ padding-top:13px; padding-bottom:13px; gap:12px; }
+    .logo-word{ font-size:22px; }
+    .logo-sub{ font-size:8.5px; letter-spacing:0.24em; }
+    .lang-toggle{ padding:6px 10px; font-size:10.5px; }
+    .burger{ font-size:22px; }
+
+    .hero h1{ font-size:clamp(36px, 11vw, 52px); }
+    .hero p.lede{ font-size:15.5px; }
+    .hero-photo{ max-width:100%; }
+
+    .about-copy p{ font-size:15.5px; }
+    .stat-row{ gap:16px 28px; }
+    .stat .num{ font-size:28px; }
+
+    .service-card{ padding:28px 22px 24px; }
+    .service-card h3{ font-size:21px; }
+
+    .gallery{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+
+    .contact h2{ font-size:clamp(30px, 10vw, 44px); }
+    .contact p.lede{ font-size:15.5px; }
+    .contact-meta{ gap:28px; }
+
+    .footer-inner{ flex-direction:column; text-align:center; gap:18px; }
+    .footer-links{ justify-content:center; }
+
+    .modal-card{ padding:26px 18px 24px; border-radius:0; max-width:100%; }
+    .modal-card h2{ font-size:22px; }
+    .modal-overlay{ padding:0; }
+  }
+
+  /* ---- ≤380px: iPhone SE / Android compactos ---- */
+  @media (max-width: 380px){
+    .wrap{ padding-left:calc(16px + env(safe-area-inset-left)); padding-right:calc(16px + env(safe-area-inset-right)); }
+    .logo-word{ font-size:19px; }
+    .nav-actions{ gap:8px; }
+    .lang-toggle{ padding:5px 8px; font-size:10px; }
+
+    .hero h1{ font-size:clamp(30px, 11.5vw, 40px); }
+    .btn{ font-size:11.5px; padding:11px 18px; }
+
+    .gallery{ grid-template-columns:1fr 1fr; gap:8px; }
+    .stat-row{ flex-direction:column; gap:14px; }
+  }
+
+  /* ---- landscape en teléfono (altura reducida) ---- */
+  @media (max-height: 460px) and (orientation: landscape){
+    nav.links{ inset:56px 0 0 0; padding-top:18px; gap:14px; }
+    .hero{ padding:40px 0 56px; }
+    section{ padding:56px 0; }
   }
 </style>
 </head>
