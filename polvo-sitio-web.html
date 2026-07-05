@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLVO — Stylist & Hair Artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone: #FAF6EE;       /* casi blanco, con calidez */
+    --bone-soft: #F1E9DA;  /* para contraste sutil entre secciones/cards */
+    --wine: #6E1423;       /* vino — ahora usado como TOQUE, no como fondo dominante */
+    --wine-deep: #3B0A16;  /* vino oscuro — reservado para el bloque de contacto (única sección de impacto total) */
+    --green: #4FB53F;      /* verde atenuado — chispa ocasional, no neón dominante */
+    --green-bright: #6FFB57; /* verde vivo — solo en el bloque de contacto, sobre vino oscuro */
+    --ink: #17110F;        /* texto principal casi negro */
+    --ink-soft: #514238;
+    --line: rgba(23,17,15,0.12);
+    --radius: 2px;
+    --maxw: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--bone);
+    color:var(--ink);
+    font-family:'Archivo', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3, .display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.02;
+    margin:0;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+
+  .eyebrow{
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--wine);
+  }
+  .eyebrow.on-wine-deep{ color:var(--green-bright); }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--wine);
+    outline-offset:3px;
+  }
+
+  /* ---------- NAVBAR ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--bone);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:16px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+  }
+  .logo-lockup{ display:flex; flex-direction:column; line-height:1; gap:4px; }
+  .logo-word{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:28px;
+    color:var(--wine);
+    letter-spacing:0.01em;
+    display:flex;
+    align-items:flex-start;
+    gap:4px;
+  }
+  .logo-word sup{
+    font-family:'Archivo', sans-serif;
+    font-size:10px;
+    font-weight:600;
+    color:var(--ink);
+    margin-top:4px;
+  }
+  .logo-sub{
+    font-family:'Archivo', sans-serif;
+    font-size:9.5px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  nav.links{
+    display:flex;
+    align-items:center;
+    gap:32px;
+  }
+  nav.links a{
+    color:var(--ink);
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:600;
+    position:relative;
+    padding-bottom:4px;
+  }
+  nav.links a::after{
+    content:"";
+    position:absolute; left:0; bottom:0;
+    width:0; height:1.5px;
+    background:var(--wine);
+    transition:width .25s ease;
+  }
+  nav.links a:hover::after{ width:100%; }
+
+  .nav-actions{ display:flex; align-items:center; gap:14px; }
+
+  .lang-toggle{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-family:'Archivo', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    padding:7px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--wine); color:var(--wine); }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:12px 22px;
+    border-radius:999px;
+    cursor:pointer;
+    border:1.5px solid transparent;
+    transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-solid{
+    background:var(--wine);
+    color:var(--bone);
+  }
+  .btn-solid:hover{ background:var(--wine-deep); }
+  .btn-outline{
+    background:transparent;
+    border-color:var(--wine);
+    color:var(--wine);
+  }
+  .btn-outline:hover{ background:var(--wine); color:var(--bone); }
+
+  .btn-wa{
+    background:var(--wine);
+    color:var(--bone);
+    width:100%;
+    justify-content:center;
+    margin-top:auto;
+  }
+  .btn-wa svg{ width:15px; height:15px; flex:none; }
+  .btn-wa:hover{ background:var(--wine-deep); }
+
+  .burger{ display:none; background:none; border:none; color:var(--ink); font-size:26px; cursor:pointer; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--bone);
+    color:var(--ink);
+    overflow:hidden;
+    padding:96px 0 120px;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .hero h1{
+    font-size:clamp(48px, 6.4vw, 92px);
+    text-transform:uppercase;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--wine);
+  }
+  .hero p.lede{
+    margin-top:22px;
+    max-width:46ch;
+    font-size:17px;
+    color:var(--ink-soft);
+  }
+  .hero .cta-row{ margin-top:36px; display:flex; gap:16px; flex-wrap:wrap; }
+
+  .hero-photo{
+    position:relative;
+    aspect-ratio:4/5;
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; }
+  .hero-photo::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(59,10,22,0) 45%, rgba(59,10,22,0.55) 100%);
+  }
+  .hero-photo .tag{
+    position:absolute; left:16px; bottom:16px; z-index:2;
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--bone); font-weight:700;
+  }
+
+  /* polvo dust — contenido SOLO dentro de la foto, como toque, no como fondo */
+  .dust{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .dust span{
+    position:absolute;
+    width:4px; height:4px;
+    background:var(--green-bright);
+    border-radius:50%;
+    opacity:0.6;
+    filter:blur(0.3px);
+    animation:drift linear infinite;
+  }
+  @keyframes drift{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    10%{ opacity:0.65; }
+    90%{ opacity:0.5; }
+    100%{ transform:translateY(-120px) translateX(16px); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .dust span{ animation:none; opacity:0.2; }
+  }
+
+  /* ---------- SECTION generic ---------- */
+  section{ padding:104px 0; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(32px, 4vw, 48px); margin-top:10px; }
+  .section-head p{ margin-top:16px; color:var(--ink-soft); font-size:16px; max-width:52ch; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ background:var(--bone); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:64px;
+    align-items:center;
+  }
+  .about-photo{
+    aspect-ratio:3/4;
+    overflow:hidden;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+  }
+  .about-photo img{ width:100%; height:100%; object-fit:cover; }
+  .about-copy p{ font-size:17px; color:var(--ink-soft); margin:0 0 18px; }
+  .about-copy p:last-child{ margin-bottom:0; }
+  .about-copy strong{ color:var(--wine); }
+
+  .stat-row{
+    display:flex; gap:40px; margin-top:34px; flex-wrap:wrap;
+  }
+  .stat .num{
+    font-family:'Fraunces', serif; font-weight:700; font-size:34px; color:var(--wine);
+  }
+  .stat .label{ font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); margin-top:2px;}
+
+  /* ---------- SERVICES ---------- */
+  .services{ background:var(--bone-soft); }
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .service-card{
+    background:var(--bone);
+    padding:36px 30px 30px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    border-top:3px solid transparent;
+    transition:border-color .25s ease, transform .2s ease;
+  }
+  .service-card:hover{ border-top-color:var(--wine); transform:translateY(-3px); }
+  .service-num{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    color:var(--wine);
+  }
+  .service-card h3{ font-size:24px; }
+  .service-card p{ color:var(--ink-soft); font-size:15px; margin:0 0 6px; flex:1; }
+
+  /* ---------- PORTFOLIO ---------- */
+  .portfolio{ background:var(--bone); }
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+  }
+  .gallery-item{
+    position:relative;
+    aspect-ratio:1/1.15;
+    overflow:hidden;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+  }
+  .gallery-item img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .5s ease;
+  }
+  .gallery-item:hover img{ transform:scale(1.06); }
+  .gallery-item::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(59,10,22,0) 55%, rgba(59,10,22,0.78) 100%);
+    opacity:0; transition:opacity .3s ease;
+  }
+  .gallery-item:hover::after{ opacity:1; }
+  .gallery-cap{
+    position:absolute; left:14px; bottom:14px; z-index:2;
+    color:var(--bone);
+    font-size:11px; letter-spacing:0.16em; text-transform:uppercase; font-weight:700;
+    opacity:0; transform:translateY(6px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .gallery-item:hover .gallery-cap{ opacity:1; transform:translateY(0); }
+
+  /* ---------- CONTACT — única sección con vino sólido: el momento de mayor drama de la marca ---------- */
+  .contact{
+    position:relative;
+    background:var(--wine-deep);
+    color:var(--bone);
+    overflow:hidden;
+  }
+  .contact .wrap{ position:relative; z-index:2; text-align:center; }
+  .contact h2{
+    color:var(--bone);
+    font-size:clamp(36px, 5.6vw, 64px);
+    text-transform:uppercase;
+  }
+  .contact h2 em{ font-style:normal; color:var(--green-bright); }
+  .contact p.lede{
+    max-width:52ch; margin:20px auto 0; color:rgba(250,246,238,0.82); font-size:17px;
+  }
+  .contact-actions{
+    margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  }
+  .contact .btn-solid{ background:var(--green-bright); color:var(--wine-deep); }
+  .contact .btn-solid:hover{ background:var(--bone); }
+  .contact .btn-outline{ border-color:var(--green-bright); color:var(--green-bright); }
+  .contact .btn-outline:hover{ background:var(--green-bright); color:var(--wine-deep); }
+  .contact-meta{
+    margin-top:56px;
+    display:flex; justify-content:center; gap:48px; flex-wrap:wrap;
+  }
+  .contact-meta div{ text-align:left; }
+  .contact-meta .eyebrow{ margin-bottom:6px; }
+  .contact-meta a, .contact-meta span{ font-size:15px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--bone);
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding:36px 0;
+  }
+  .footer-inner{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  }
+  .footer-inner .logo-word{ font-size:20px; }
+  footer .fine{ font-size:12px; letter-spacing:0.04em; }
+  .footer-links{ display:flex; gap:22px; flex-wrap:wrap; }
+  .footer-links a, .footer-links button{
+    font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-soft); background:none; border:none; cursor:pointer; padding:0;
+    font-family:'Archivo', sans-serif; font-weight:600;
+  }
+  .footer-links a:hover, .footer-links button:hover{ color:var(--wine); }
+
+  /* ---------- MODAL: Aviso de Privacidad ---------- */
+  .modal-overlay{
+    display:none;
+    position:fixed; inset:0; z-index:100;
+    background:rgba(23,17,15,0.55);
+    padding:32px 16px;
+    overflow-y:auto;
+  }
+  .modal-overlay.open{ display:flex; align-items:flex-start; justify-content:center; }
+  .modal-card{
+    background:var(--bone);
+    max-width:680px;
+    width:100%;
+    border-radius:4px;
+    padding:40px 36px 36px;
+    position:relative;
+    border:1px solid var(--line);
+    margin:auto;
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px;
+    background:none; border:1px solid var(--line); border-radius:50%;
+    width:32px; height:32px; cursor:pointer; font-size:16px; color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-close:hover{ border-color:var(--wine); color:var(--wine); }
+  .modal-card h2{ font-size:26px; margin-bottom:6px; }
+  .modal-card .eyebrow{ margin-bottom:8px; }
+  .modal-card h3{ font-size:15px; font-family:'Archivo', sans-serif; font-weight:700; color:var(--wine); margin:22px 0 6px; }
+  .modal-card p, .modal-card li{ font-size:14.5px; color:var(--ink-soft); margin:0 0 10px; }
+  .modal-card ul{ padding-left:18px; margin:0 0 10px; }
+  .modal-note{
+    margin-top:20px; padding:12px 14px; background:var(--bone-soft); border-left:3px solid var(--wine);
+    font-size:13px; color:var(--ink-soft);
+  }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 900px){
+    nav.links{
+      position:fixed; inset:64px 0 0 0;
+      background:var(--bone);
+      flex-direction:column;
+      align-items:flex-start;
+      padding:32px 28px;
+      gap:22px;
+      transform:translateX(100%);
+      transition:transform .3s ease;
+      z-index:40;
+      border-top:1px solid var(--line);
+    }
+    nav.links.open{ transform:translateX(0); }
+    .burger{ display:block; }
+    .nav-actions .btn.desktop-only{ display:none; }
+
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero{ padding:64px 0 80px; }
+    .about-grid{ grid-template-columns:1fr; }
+    .service-grid{ grid-template-columns:1fr; }
+    .gallery{ grid-template-columns:repeat(2, 1fr); }
+    .contact-meta{ flex-direction:column; align-items:center; }
+    .contact-meta div{ text-align:center; }
+    .modal-card{ padding:32px 22px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="logo-lockup" aria-label="POLVO — inicio">
+      <span class="logo-word">POLVO<sup>TM</sup></span>
+      <span class="logo-sub">Stylist &amp; Hair Artist</span>
+    </a>
+
+    <nav class="links" id="navLinks">
+      <a href="#sobre-mi" data-en="About" data-es="Sobre mí">Sobre mí</a>
+      <a href="#servicios" data-en="Services" data-es="Servicios">Servicios</a>
+      <a href="#portafolio" data-en="Portfolio" data-es="Portafolio">Portafolio</a>
+      <a href="#contacto" data-en="Contact" data-es="Contacto">Contacto</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma / Switch language">EN</button>
+      <a href="https://wa.me/522228832753?text=Hola%20Arely%2C%20quiero%20agendar%20una%20cita" target="_blank" rel="noopener" class="btn btn-solid desktop-only" data-en="Book now" data-es="Agenda aquí">Agenda aquí</a>
+      <button class="burger" id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow" data-en="Editorial Hair Artist — Puebla, MX" data-es="Estilista Editorial — Puebla, MX">Editorial Hair Artist — Puebla, MX</p>
+      <h1 data-en='Hairstyles that <em>command.</em>' data-es='Peinados que <em>imponen.</em>'>Peinados que <em>imponen.</em></h1>
+      <p class="lede" data-en="I create hairstyles that adapt to each person, honoring technique and every detail to achieve an elegant, current and long-lasting result." data-es="Creo peinados que se adaptan a cada persona, cuidando la técnica y cada detalle para conseguir un resultado elegante, actual y duradero.">Creo peinados que se adaptan a cada persona, cuidando la técnica y cada detalle para conseguir un resultado elegante, actual y duradero.</p>
+      <div class="cta-row">
+        <a href="https://wa.me/522228832753?text=Hola%20Arely%2C%20quiero%20agendar%20una%20cita" target="_blank" rel="noopener" class="btn btn-solid" data-en="Book your appointment" data-es="Agenda tu cita">Agenda tu cita</a>
+        <a href="#portafolio" class="btn btn-outline" data-en="See the work" data-es="Ver portafolio">Ver portafolio</a>
+      </div>
+    </div>
+
+    <div class="hero-photo">
+      <div class="dust" id="dustHero" aria-hidden="true"></div>
+      <img src="https://picsum.photos/id/338/900/1100" alt="Fotografía editorial de peinado — reemplazar" />
+      <span class="tag" data-en="Editorial 2026" data-es="Editorial 2026">Editorial 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="sobre-mi">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <img src="https://picsum.photos/id/64/800/1000" alt="Retrato de la estilista — reemplazar" />
+    </div>
+    <div>
+      <p class="eyebrow" data-en="About Arely" data-es="Sobre Arely">Sobre Arely</p>
+      <h2 style="margin-top:10px; font-size:clamp(30px,4vw,44px);" data-en="Technique first. Drama always." data-es="Primero la técnica. El drama, siempre.">Primero la técnica. El drama, siempre.</h2>
+      <div class="about-copy" style="margin-top:24px;">
+        <p data-en="I'm a stylist specialized in social and editorial hair. I like creating hairstyles that adapt to each person — honoring technique and every detail to reach a result that's elegant, current and lasting." data-es="Soy estilista especializada en peinado social y editorial. Me gusta crear peinados que se adapten a cada persona, cuidando la técnica y cada detalle para conseguir un resultado elegante, actual y duradero.">Soy estilista especializada en peinado social y editorial. Me gusta crear peinados que se adapten a cada persona, cuidando la técnica y cada detalle para conseguir un resultado elegante, actual y duradero.</p>
+        <p data-en="For the past year I've also specialized in keratin treatments — a craft I keep training in, to offer healthier, more manageable hair with a quality finish." data-es="Además, desde hace un año también realizo tratamientos de keratina, una especialidad en la que continúo formándome para ofrecer un cabello más sano, manejable y con un acabado de calidad.">Además, desde hace un año también realizo tratamientos de keratina, una especialidad en la que continúo formándome para ofrecer un cabello más sano, manejable y con un acabado de calidad.</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="num">2</div>
+          <div class="label" data-en="Disciplines: social & editorial" data-es="Disciplinas: social y editorial">Disciplinas: social y editorial</div>
+        </div>
+        <div class="stat">
+          <div class="num">1+</div>
+          <div class="label" data-en="Year specializing in keratin" data-es="Año especializándose en keratina">Año especializándose en keratina</div>
+        </div>
+        <div class="stat">
+          <div class="num">100%</div>
+          <div class="label" data-en="Tailored to every client" data-es="A la medida de cada clienta">A la medida de cada clienta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICIOS ================= -->
+<section class="services" id="servicios">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-en="Services" data-es="Servicios">Servicios</p>
+      <h2 data-en="Made for the moment." data-es="Hecho para el momento.">Hecho para el momento.</h2>
+      <p data-en="Every service is built around the occasion — and around you. Tap to book directly on WhatsApp." data-es="Cada servicio está construido alrededor de la ocasión — y alrededor de ti. Toca para reservar directo por WhatsApp.">Cada servicio está construido alrededor de la ocasión — y alrededor de ti. Toca para reservar directo por WhatsApp.</p>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding:0;">
+    <div class="service-grid">
+      <div class="service-card">
+        <span class="service-num">01</span>
+        <h3 data-en="Social Styling" data-es="Peinado Social">Peinado Social</h3>
+        <p data-en="For weddings, parties and events — hairstyles built to hold, move and turn heads all night." data-es="Para bodas, fiestas y eventos — peinados construidos para durar, moverse y voltear miradas toda la noche.">Para bodas, fiestas y eventos — peinados construidos para durar, moverse y voltear miradas toda la noche.</p>
+        <a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/522228832753?text=Hola%20Arely%2C%20me%20interesa%20un%20peinado%20social%2C%20%C2%BFme%20das%20informes%3F" data-en="Book on WhatsApp" data-es="Reservar por WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-2.99.78.8-2.92-.19-.3A7.94 7.94 0 1 1 12 20zm4.38-5.94c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+          <span data-en="Book on WhatsApp" data-es="Reservar por WhatsApp">Reservar por WhatsApp</span>
+        </a>
+      </div>
+      <div class="service-card">
+        <span class="service-num">02</span>
+        <h3 data-en="Editorial Styling" data-es="Peinado Editorial">Peinado Editorial</h3>
+        <p data-en="For shoots and campaigns — bold, directional work made for the camera." data-es="Para sesiones y campañas — trabajo audaz y direccional pensado para la cámara.">Para sesiones y campañas — trabajo audaz y direccional pensado para la cámara.</p>
+        <a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/522228832753?text=Hola%20Arely%2C%20me%20interesa%20un%20peinado%20editorial%2C%20%C2%BFme%20das%20informes%3F">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-2.99.78.8-2.92-.19-.3A7.94 7.94 0 1 1 12 20zm4.38-5.94c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+          <span data-en="Book on WhatsApp" data-es="Reservar por WhatsApp">Reservar por WhatsApp</span>
+        </a>
+      </div>
+      <div class="service-card">
+        <span class="service-num">03</span>
+        <h3 data-en="Keratin Treatments" data-es="Tratamientos de Keratina">Tratamientos de Keratina</h3>
+        <p data-en="Healthier, more manageable hair with a quality finish — precision over shortcuts." data-es="Cabello más sano y manejable, con un acabado de calidad — precisión antes que atajos.">Cabello más sano y manejable, con un acabado de calidad — precisión antes que atajos.</p>
+        <a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/522228832753?text=Hola%20Arely%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20tratamiento%20de%20keratina">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.1-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.9 7.9 0 0 1-4.03-1.1l-.29-.17-2.99.78.8-2.92-.19-.3A7.94 7.94 0 1 1 12 20zm4.38-5.94c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.42-1.33-1.66-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.57.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+          <span data-en="Book on WhatsApp" data-es="Reservar por WhatsApp">Reservar por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PORTAFOLIO ================= -->
+<section class="portfolio" id="portafolio">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" data-en="Portfolio" data-es="Portafolio">Portafolio</p>
+      <h2 data-en="Recent work." data-es="Trabajo reciente.">Trabajo reciente.</h2>
+      <p data-en="A mix of social and editorial — replace these placeholders with real work." data-es="Una mezcla de social y editorial — reemplaza estas fotos genéricas con trabajo real.">Una mezcla de social y editorial — reemplaza estas fotos genéricas con trabajo real.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/177/600/700" alt="Placeholder editorial 1">
+        <span class="gallery-cap" data-en="Editorial" data-es="Editorial">Editorial</span>
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/331/600/700" alt="Placeholder social 1">
+        <span class="gallery-cap" data-en="Social" data-es="Social">Social</span>
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/342/600/700" alt="Placeholder editorial 2">
+        <span class="gallery-cap" data-en="Editorial" data-es="Editorial">Editorial</span>
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/1027/600/700" alt="Placeholder social 2">
+        <span class="gallery-cap" data-en="Social" data-es="Social">Social</span>
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/1011/600/700" alt="Placeholder keratina">
+        <span class="gallery-cap" data-en="Keratin" data-es="Keratina">Keratina</span>
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/1005/600/700" alt="Placeholder editorial 3">
+        <span class="gallery-cap" data-en="Editorial" data-es="Editorial">Editorial</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACTO ================= -->
+<section class="contact" id="contacto">
+  <div class="dust" id="dustContact" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow on-wine-deep" data-en="Booking" data-es="Reservaciones">Reservaciones</p>
+    <h2 data-en='Let<em>&#39;</em>s talk.' data-es="Hablemos.">Hablemos.</h2>
+    <p class="lede" data-en="Tell me about the occasion, the look you're after, and I'll take it from there." data-es="Cuéntame la ocasión, el look que buscas, y yo me encargo del resto.">Cuéntame la ocasión, el look que buscas, y yo me encargo del resto.</p>
+
+    <div class="contact-actions">
+      <a class="btn btn-solid" target="_blank" rel="noopener"
+         href="https://wa.me/522228832753?text=Hola%20Arely%2C%20quiero%20agendar%20una%20cita"
+         data-en="WhatsApp booking" data-es="Agenda por WhatsApp">Agenda por WhatsApp</a>
+      <a class="btn btn-outline" href="https://instagram.com" target="_blank" rel="noopener"
+         data-en="See Instagram" data-es="Ver Instagram">Ver Instagram</a>
+    </div>
+
+    <div class="contact-meta">
+      <div>
+        <p class="eyebrow on-wine-deep" data-en="WhatsApp" data-es="WhatsApp">WhatsApp</p>
+        <span>222 883 2753</span>
+      </div>
+      <div>
+        <p class="eyebrow on-wine-deep" data-en="Instagram" data-es="Instagram">Instagram</p>
+        <span>@arelypolvo</span>
+      </div>
+      <div>
+        <p class="eyebrow on-wine-deep" data-en="Location" data-es="Ubicación">Ubicación</p>
+        <span>Puebla, México</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap footer-inner">
+    <span class="logo-word">POLVO<sup>TM</sup></span>
+    <div class="footer-links">
+      <a href="#sobre-mi" data-en="About" data-es="Sobre mí">Sobre mí</a>
+      <a href="#servicios" data-en="Services" data-es="Servicios">Servicios</a>
+      <a href="#portafolio" data-en="Portfolio" data-es="Portafolio">Portafolio</a>
+      <a href="#contacto" data-en="Contact" data-es="Contacto">Contacto</a>
+      <button type="button" id="openPrivacy" data-en="Privacy Notice" data-es="Aviso de Privacidad">Aviso de Privacidad</button>
+    </div>
+    <span class="fine">&copy; 2026 Polvo. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">Todos los derechos reservados.</span></span>
+  </div>
+</footer>
+
+<!-- ================= MODAL: AVISO DE PRIVACIDAD ================= -->
+<div class="modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="modal-card">
+    <button class="modal-close" id="closePrivacy" aria-label="Cerrar / Close">✕</button>
+    <p class="eyebrow" data-en="Legal" data-es="Legal">Legal</p>
+    <h2 id="privacyTitle" data-en="Privacy Notice" data-es="Aviso de Privacidad">Aviso de Privacidad</h2>
+
+    <h3 data-en="Who is responsible for your data" data-es="Responsable del tratamiento">Responsable del tratamiento</h3>
+    <p data-en="POLVO — Arely Polvo (&quot;Polvo&quot;), with contact address in Puebla, Puebla, México, is responsible for the use and protection of your personal data, in accordance with the Federal Law on Protection of Personal Data Held by Private Parties (LFPDPPP)." data-es="POLVO — Arely Polvo (&quot;Polvo&quot;), con domicilio de contacto en Puebla, Puebla, México, es responsable del uso y protección de tus datos personales, de conformidad con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).">POLVO — Arely Polvo (&quot;Polvo&quot;), con domicilio de contacto en Puebla, Puebla, México, es responsable del uso y protección de tus datos personales, de conformidad con la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
+
+    <h3 data-en="Data we collect" data-es="Datos que recabamos">Datos que recabamos</h3>
+    <ul>
+      <li data-en="Identification and contact data: name, phone number, email and/or WhatsApp." data-es="Datos de identificación y contacto: nombre, teléfono, correo electrónico y/o WhatsApp.">Datos de identificación y contacto: nombre, teléfono, correo electrónico y/o WhatsApp.</li>
+      <li data-en="Images of your hair/hairstyle, only when you voluntarily share reference photos or authorize a photo/video session." data-es="Imágenes de tu cabello/peinado, únicamente cuando compartes fotos de referencia de forma voluntaria o autorizas una sesión de fotos/video.">Imágenes de tu cabello/peinado, únicamente cuando compartes fotos de referencia de forma voluntaria o autorizas una sesión de fotos/video.</li>
+    </ul>
+    <p data-en="We do not request sensitive personal data (health, religion, sexual orientation, etc.) to provide our services." data-es="No solicitamos datos personales sensibles (salud, religión, preferencia sexual, etc.) para prestar nuestros servicios.">No solicitamos datos personales sensibles (salud, religión, preferencia sexual, etc.) para prestar nuestros servicios.</p>
+
+    <h3 data-en="Purpose of use" data-es="Finalidades del tratamiento">Finalidades del tratamiento</h3>
+    <ul>
+      <li data-en="Primary: schedule and confirm appointments, provide styling and keratin services, and respond to your questions." data-es="Primarias: agendar y confirmar citas, prestar servicios de peinado y keratina, y responder tus dudas.">Primarias: agendar y confirmar citas, prestar servicios de peinado y keratina, y responder tus dudas.</li>
+      <li data-en="Secondary (optional): share portfolio content on social media only with your explicit authorization." data-es="Secundarias (opcionales): compartir contenido en redes sociales como portafolio, únicamente con tu autorización expresa.">Secundarias (opcionales): compartir contenido en redes sociales como portafolio, únicamente con tu autorización expresa.</li>
+    </ul>
+
+    <h3 data-en="Data sharing" data-es="Transferencia de datos">Transferencia de datos</h3>
+    <p data-en="We do not sell or share your personal data with third parties, except when required by law or with your prior consent." data-es="No vendemos ni compartimos tus datos personales con terceros, salvo que la ley lo requiera o cuentes con tu consentimiento previo.">No vendemos ni compartimos tus datos personales con terceros, salvo que la ley lo requiera o cuentes con tu consentimiento previo.</p>
+
+    <h3 data-en="Your ARCO rights" data-es="Derechos ARCO">Derechos ARCO</h3>
+    <p data-en="You may access, rectify, cancel or oppose the use of your personal data (ARCO rights) at any time by writing to hola@polvo.mx or via WhatsApp at 222 883 2753." data-es="Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos personales (derechos ARCO) en cualquier momento, escribiendo a hola@polvo.mx o por WhatsApp al 222 883 2753.">Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos personales (derechos ARCO) en cualquier momento, escribiendo a hola@polvo.mx o por WhatsApp al 222 883 2753.</p>
+
+    <h3 data-en="Changes to this notice" data-es="Cambios a este aviso">Cambios a este aviso</h3>
+    <p data-en="This notice may be updated. Any changes will be published on this same page." data-es="Este aviso puede actualizarse. Cualquier cambio será publicado en esta misma página.">Este aviso puede actualizarse. Cualquier cambio será publicado en esta misma página.</p>
+
+    <div class="modal-note" data-en="Template notice for launch — have a lawyer confirm the registered business name, tax address and any additional local requirements before publishing." data-es="Aviso plantilla para lanzar el sitio — antes de publicarlo, pide a un abogado confirmar la razón social, domicilio fiscal y cualquier requisito local adicional.">Aviso plantilla para lanzar el sitio — antes de publicarlo, pide a un abogado confirmar la razón social, domicilio fiscal y cualquier requisito local adicional.</div>
+  </div>
+</div>
+
+<script>
+  // ---- Language toggle ----
+  let lang = 'es';
+  const toggleBtn = document.getElementById('langToggle');
+  const translatable = document.querySelectorAll('[data-en][data-es]');
+
+  function applyLang(l){
+    translatable.forEach(el => {
+      el.innerHTML = el.dataset[l];
+    });
+    document.documentElement.lang = l;
+    toggleBtn.textContent = l === 'es' ? 'EN' : 'ES';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    lang = lang === 'es' ? 'en' : 'es';
+    applyLang(lang);
+  });
+
+  // ---- Mobile nav ----
+  const burger = document.getElementById('burgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    burger.textContent = isOpen ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.textContent = '☰';
+  }));
+
+  // ---- Dust / polvo particles (signature element, contained) ----
+  function seedDust(containerId, count){
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('span');
+      const left = Math.random()*100;
+      const size = 3 + Math.random()*4;
+      const delay = Math.random()*8;
+      const duration = 6 + Math.random()*6;
+      s.style.left = left + '%';
+      s.style.bottom = (Math.random()*40) + '%';
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = duration + 's';
+      el.appendChild(s);
+    }
+  }
+  seedDust('dustHero', 14);
+  seedDust('dustContact', 22);
+
+  // ---- Privacy modal ----
+  const privacyModal = document.getElementById('privacyModal');
+  const openPrivacy = document.getElementById('openPrivacy');
+  const closePrivacy = document.getElementById('closePrivacy');
+
+  function openModal(){
+    privacyModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    privacyModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  openPrivacy.addEventListener('click', openModal);
+  closePrivacy.addEventListener('click', closeModal);
+  privacyModal.addEventListener('click', (e) => { if(e.target === privacyModal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
